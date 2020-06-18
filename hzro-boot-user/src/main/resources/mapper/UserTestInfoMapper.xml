@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hzero.boot.user.domain.UserTestInfoMapper">
+  <resultMap id="BaseResultMap" type="org.hzero.boot.user.infra.UserTestInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="user_name" />
+    <result column="user_sex" jdbcType="CHAR" property="user_sex" />
+    <result column="user_phone" jdbcType="VARCHAR" property="user_phone" />
+    <result column="user_age" jdbcType="VARCHAR" property="user_age" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_name, user_sex, user_phone, user_age
+  </sql>
+  <select id="selectByExample" parameterType="org.hzero.boot.user.infra.UserTestInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from user_test_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_test_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user_test_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="org.hzero.boot.user.infra.UserTestInfo" useGeneratedKeys="true">
+    insert into user_test_info (user_name, user_sex, user_phone, 
+      user_age)
+    values (#{user_name,jdbcType=VARCHAR}, #{user_sex,jdbcType=CHAR}, #{user_phone,jdbcType=VARCHAR}, 
+      #{user_age,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="org.hzero.boot.user.infra.UserTestInfo" useGeneratedKeys="true">
+    insert into user_test_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="user_name != null">
+        user_name,
+      </if>
+      <if test="user_sex != null">
+        user_sex,
+      </if>
+      <if test="user_phone != null">
+        user_phone,
+      </if>
+      <if test="user_age != null">
+        user_age,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="user_name != null">
+        #{user_name,jdbcType=VARCHAR},
+      </if>
+      <if test="user_sex != null">
+        #{user_sex,jdbcType=CHAR},
+      </if>
+      <if test="user_phone != null">
+        #{user_phone,jdbcType=VARCHAR},
+      </if>
+      <if test="user_age != null">
+        #{user_age,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.hzero.boot.user.infra.UserTestInfo">
+    update user_test_info
+    <set>
+      <if test="user_name != null">
+        user_name = #{user_name,jdbcType=VARCHAR},
+      </if>
+      <if test="user_sex != null">
+        user_sex = #{user_sex,jdbcType=CHAR},
+      </if>
+      <if test="user_phone != null">
+        user_phone = #{user_phone,jdbcType=VARCHAR},
+      </if>
+      <if test="user_age != null">
+        user_age = #{user_age,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.hzero.boot.user.infra.UserTestInfo">
+    update user_test_info
+    set user_name = #{user_name,jdbcType=VARCHAR},
+      user_sex = #{user_sex,jdbcType=CHAR},
+      user_phone = #{user_phone,jdbcType=VARCHAR},
+      user_age = #{user_age,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
